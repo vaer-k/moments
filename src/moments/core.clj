@@ -1,25 +1,26 @@
 (ns moments.core)
 
-(def k (atom 0))
-(def M (atom 0))
-(def SS (atom 0))
+(def n (atom 0)) ; num records
+(def M (atom 0)) ; mean
+(def SS (atom 0)) ; sum of square
+(def sigma (atom 0)) ; standard deviation
 
 
 (defn inc-mean [x]
-  (+ @M (* (- x @M) (/ 1 @k))))
+  (+ @M (* (- x @M) (/ 1 @n))))
 
 (defn inc-ss [x m]
   (+ @SS (* (- x m) (- x @M))))
 
 (defn update [x]
   (let [m @M]
-    (reset! k (inc @k))
+    (reset! n (inc @n))
     (reset! M (inc-mean x))
     (reset! SS (inc-ss x m)))
   nil)
 
 (defn clear []
-  (reset! k 0)
+  (reset! n 0)
   (reset! M 0)
   (reset! SS 0)
   nil)
